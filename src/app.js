@@ -21,9 +21,21 @@ app.post("/sign-up", (req,res) => {
 
 app.post("/tweets", (req, res) => { 
     let tweetWritten = req.body
+    let image = users.find(e => e.username === tweetWritten.username)
     if(!users.includes(tweetWritten.username)){
         res.send("UNAUTHORIZED")
     } else{
         res.send('OK')
+        let tweetGet = {username: tweetWritten.username, avatar: image.avatar, tweet: tweetWritten.tweet}
+        tweets.push(tweetGet)
+    }
+})
+
+app.get("/tweets", (req, res) => {  
+    if (tweets.length < 10){
+        res.send(tweets)
+    } else{
+        let tenTweets = tweets.filter((e, i) => i < 10)
+        res.send(tenTweets)
     }
 })
