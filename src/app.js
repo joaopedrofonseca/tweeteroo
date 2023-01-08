@@ -33,7 +33,7 @@ app.post("/sign-up", (req, res) => {
 app.post("/tweets", (req, res) => {
     const tweet = req.body
     let filteredUser = users.filter(user => tweet.username === user.username)
-    if (filteredUser && (tweet.username || tweet.tweet)){
+    if (filteredUser){
         tweet.avatar = filteredUser.avatar
         tweets.push(tweet)
         res.sendStatus(201)
