@@ -11,10 +11,10 @@ app.listen(PORT, () => {
 })
 
 let users = [
-    /*{
+    {
         username: "jp",
         avatar: "imagem"
-    }*/
+    }
 ]
 let tweets = []
 
@@ -33,13 +33,14 @@ app.post("/sign-up", (req, res) => {
 app.post("/tweets", (req, res) => {
     const tweet = req.body
     let filteredUser = users.filter(user => tweet.username === user.username)
-    if (filteredUser){
+    if (filteredUser[0]){
         tweet.avatar = filteredUser.avatar
         tweets.push(tweet)
         res.sendStatus(201)
-    } else {
-        res.status(401).send("UNAUTHORIZED")
+    } else{
+        res.sendStatus(401)
     }
+    console.log(filteredUser)
 })
 
 app.get("/tweets", (req, res) => {
