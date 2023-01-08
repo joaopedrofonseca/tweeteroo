@@ -34,9 +34,13 @@ app.post("/tweets", (req, res) => {
     const tweet = req.body
     let filteredUser = users.filter(user => tweet.username === user.username)
     if (filteredUser[0]){
-        tweet.avatar = filteredUser.avatar
-        tweets.push(tweet)
-        res.sendStatus(201)
+        let newTweet = {
+            username: tweet.username,
+            avatar: filteredUser[0].avatar,
+            tweet: tweet.tweet
+        }
+        tweets.push(newTweet)
+        res.status(201).send(tweets)
     } else{
         res.sendStatus(401)
     }
