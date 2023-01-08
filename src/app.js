@@ -6,36 +6,46 @@ app.use(express.json())
 app.use(cors())
 const PORT = 5000
 
-app.listen(PORT, () => { 
+app.listen(PORT, () => {
     console.log(`Porta do servidor: ${PORT}`)
 })
 
-let users = []
+let users = [
+    /*{
+        username: "jp",
+        avatar: "imagem"
+    }*/
+]
 let tweets = []
 
-app.post("/sign-up", (req,res) => {
+app.post("/sign-up", (req, res) => {
     let user = req.body
-    users.push(user)
-    res.send("OK")
-})
-
-app.post("/tweets", (req, res) => { 
-    let tweetWritten = req.body
-    let image = users.find(e => e.username === tweetWritten.username)
-    if(!users.includes(tweetWritten.username)){
-        res.send("UNAUTHORIZED")
-    } else{
-        res.send('OK')
-        let tweetGet = {username: tweetWritten.username, avatar: image.avatar, tweet: tweetWritten.tweet}
-        tweets.push(tweetGet)
+    let u = req.body.username
+    let a = req.body.avatar
+    if (!u || !a) {
+        res.sendStatus(401)
+    } else {
+        users.push(user)
+        res.status(201).send(users)
     }
 })
 
-app.get("/tweets", (req, res) => {  
-    if (tweets.length < 10){
-        res.send(tweets)
-    } else{
-        let tenTweets = tweets.filter((e, i) => i < 10)
-        res.send(tenTweets)
+app.post("/tweets", (req, res) => {
+    const tweet = req.body
+    let filteredUser = users.filter(user => tweet.username === user.username)
+    if (filteredUser){
+        let post = {
+            username: tweet.username,
+            avatar: filteredUser.avatar,
+            tweet: tweet.tweet
+        }
+        tweets.push(post)
+        res.sendStatus(201)
+    } else {
+        res.sendStatus(401)
     }
+})
+
+app.get("/tweets", (req, res) => {
+    res.send(tweets)
 })
