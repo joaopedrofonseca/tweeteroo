@@ -45,5 +45,5 @@ app.post("/tweets", (req, res) => {
 app.get("/tweets", (req, res) => {
     const tweetsNumber = 10
     const lastTweets = tweets.slice(-tweetsNumber).reverse()
-    res.send(lasttweets)
+    res.send(lastTweets)
 })
