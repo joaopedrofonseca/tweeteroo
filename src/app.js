@@ -34,15 +34,11 @@ app.post("/tweets", (req, res) => {
     const tweet = req.body
     let filteredUser = users.filter(user => tweet.username === user.username)
     if (filteredUser){
-        let post = {
-            username: tweet.username,
-            avatar: filteredUser.avatar,
-            tweet: tweet.tweet
-        }
-        tweets.push(post)
+        tweet.avatar = filteredUser.avatar
+        tweets.push(tweet)
         res.sendStatus(201)
     } else {
-        res.sendStatus(401)
+        res.status(401).send("UNAUTHORIZED")
     }
 })
 
