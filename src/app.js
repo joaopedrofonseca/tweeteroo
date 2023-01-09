@@ -10,12 +10,7 @@ app.listen(PORT, () => {
     console.log(`Porta do servidor: ${PORT}`)
 })
 
-let users = [
-    {
-        username: "jp",
-        avatar: "imagem"
-    }
-]
+let users = []
 let tweets = []
 
 app.post("/sign-up", (req, res) => {
